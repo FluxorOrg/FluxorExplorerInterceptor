@@ -17,10 +17,10 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/MortenGregersen/Fluxor",
-            from: "0.1.0-beta"),
+            .branch("master")),
         .package(
             url: "https://github.com/MortenGregersen/FluxorExplorerSnapshot",
-            from: "0.1.0-beta"),
+            .branch("master"))
     ],
     targets: [
         .target(
