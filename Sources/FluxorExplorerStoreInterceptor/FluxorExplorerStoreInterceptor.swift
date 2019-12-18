@@ -17,13 +17,13 @@ public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearb
     internal let localPeerID: MCPeerID
     internal var advertiser: MCNearbyServiceAdvertiser
     internal var session: MCSession?
-    internal var unsentSnapshots = [FluxorExplorerSnapshot<State>]()
+    internal var unsentSnapshots = [FluxorExplorerSnapshot]()
 
     public var peerDidDisconnect: (MCPeerID) -> Void = { peerID in
         print("FluxorExplorerStoreInterceptor - Peer did disconnect: \(peerID.displayName)")
     }
 
-    public var didFailSendingSnapshot: (FluxorExplorerSnapshot<State>) -> Void = { snapshot in
+    public var didFailSendingSnapshot: (FluxorExplorerSnapshot) -> Void = { snapshot in
         print("FluxorExplorerStoreInterceptor - Did fail sending snapshot: \(snapshot)")
     }
 
@@ -71,7 +71,7 @@ extension FluxorExplorerStoreInterceptor: StoreInterceptor {
         send(snapshot: data)
     }
 
-    internal func send(snapshot: FluxorExplorerSnapshot<State>) {
+    internal func send(snapshot: FluxorExplorerSnapshot) {
         guard let session = session, session.connectedPeers.count > 0 else {
             unsentSnapshots.append(snapshot)
             return
