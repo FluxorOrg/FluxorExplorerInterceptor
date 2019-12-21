@@ -66,8 +66,8 @@ public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearb
 }
 
 extension FluxorExplorerStoreInterceptor: StoreInterceptor {
-    public func actionDispatched(action: Action, newState: State) {
-        let data = FluxorExplorerSnapshot(action: action, newState: newState)
+    public func actionDispatched(action: Action, oldState: State, newState: State) {
+        let data = FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState)
         send(snapshot: data)
     }
 
