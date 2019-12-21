@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/MortenGregersen/Fluxor",
         "state": {
           "branch": "master",
-          "revision": "f91e0e7c5a1ff4dc87b12e4781f9ab53e718a293",
+          "revision": "4f447c4e793aabcc05aa6443b5e499855cee04c3",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/MortenGregersen/FluxorExplorerSnapshot",
         "state": {
           "branch": "master",
-          "revision": "edf29b4f1732754b7bdeb3671275e6c415bab133",
+          "revision": "f161f3750699661f20b9a908a9b20e42dcfd9f0c",
           "version": null
         }
       }

@@ -91,7 +91,7 @@ class FluxorExplorerStoreInterceptorTests: XCTestCase {
         XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 0)
         // When
         let action = TestAction()
-        storeInterceptor.actionDispatched(action: action, newState: State())
+        storeInterceptor.actionDispatched(action: action, oldState: State(), newState: State())
         // Then
         XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 1)
 
@@ -111,7 +111,7 @@ class FluxorExplorerStoreInterceptorTests: XCTestCase {
 
     func testDefaultDidFailSendingSnapshot() {
         // Given
-        let snapshot = FluxorExplorerSnapshot(action: TestAction(), newState: State())
+        let snapshot = FluxorExplorerSnapshot(action: TestAction(), oldState: State(), newState: State())
         let mockSession = MCSessionSubClass(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none, connectedPeers: [otherPeerID])
         mockSession.shouldFailSendingData = true
         storeInterceptor.session = mockSession
@@ -123,7 +123,7 @@ class FluxorExplorerStoreInterceptorTests: XCTestCase {
 
     func testCustomDidFailSendingSnapshot() {
         // Given
-        let snapshot = FluxorExplorerSnapshot(action: TestAction(), newState: State())
+        let snapshot = FluxorExplorerSnapshot(action: TestAction(), oldState: State(), newState: State())
         let mockSession = MCSessionSubClass(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none, connectedPeers: [otherPeerID])
         mockSession.shouldFailSendingData = true
         storeInterceptor.session = mockSession
