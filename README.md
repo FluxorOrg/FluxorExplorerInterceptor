@@ -1,1 +1,1 @@
-# FluxorExplorerStoreInterceptor
+# FluxorExplorerInterceptor

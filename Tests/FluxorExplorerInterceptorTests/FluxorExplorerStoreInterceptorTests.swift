@@ -1,5 +1,5 @@
 //
-//  FluxorExplorerStoreInterceptorTests.swift
+//  FluxorExplorerInterceptorTests.swift
 //  FluxorTests
 //
 //  Created by Morten Bjerg Gregersen on 15/11/2019.
@@ -8,19 +8,19 @@
 
 import Fluxor
 import FluxorExplorerSnapshot
-@testable import FluxorExplorerStoreInterceptor
+@testable import FluxorExplorerInterceptor
 import MultipeerConnectivity
 import XCTest
 
-class FluxorExplorerStoreInterceptorTests: XCTestCase {
-    var storeInterceptor: FluxorExplorerStoreInterceptor<State>!
+class FluxorExplorerInterceptorTests: XCTestCase {
+    var storeInterceptor: FluxorExplorerInterceptor<State>!
     var localPeerID: MCPeerID!
     var otherPeerID: MCPeerID!
     var session: MCSession!
 
     override func setUp() {
         super.setUp()
-        storeInterceptor = FluxorExplorerStoreInterceptor(displayName: "MyDevice", advertiserType: TestAdvertiser.self)
+        storeInterceptor = FluxorExplorerInterceptor(displayName: "MyDevice", advertiserType: TestAdvertiser.self)
         localPeerID = MCPeerID(displayName: "MyDevice")
         otherPeerID = MCPeerID(displayName: "OtherDevice")
         session = MCSession(peer: otherPeerID, securityIdentity: nil, encryptionPreference: .none)
@@ -28,7 +28,7 @@ class FluxorExplorerStoreInterceptorTests: XCTestCase {
 
     func testPublicInitializer() {
         // Given
-        let publicStoreInterceptor = FluxorExplorerStoreInterceptor<State>(displayName: "MyDevice")
+        let publicStoreInterceptor = FluxorExplorerInterceptor<State>(displayName: "MyDevice")
         // Then
         XCTAssertFalse(publicStoreInterceptor.advertiser is TestAdvertiser)
     }
