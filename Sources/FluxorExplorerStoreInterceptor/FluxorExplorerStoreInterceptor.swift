@@ -65,7 +65,7 @@ public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearb
     public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
 }
 
-extension FluxorExplorerStoreInterceptor: StoreInterceptor {
+extension FluxorExplorerStoreInterceptor: Interceptor {
     public func actionDispatched(action: Action, oldState: State, newState: State) {
         let data = FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState)
         send(snapshot: data)
