@@ -1,7 +1,7 @@
 import XCTest
 
-import FluxorExplorerStoreInterceptorTests
+import FluxorExplorerInterceptorTests
 
 var tests = [XCTestCaseEntry]()
-tests += FluxorExplorerStoreInterceptorTests.allTests()
+tests += FluxorExplorerInterceptorTests.allTests()
 XCTMain(tests)

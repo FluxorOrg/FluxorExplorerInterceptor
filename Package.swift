@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FluxorExplorerStoreInterceptor",
+    name: "FluxorExplorerInterceptor",
     platforms: [
         .macOS(.v10_15),
         .iOS("13.0"),
@@ -11,8 +11,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "FluxorExplorerStoreInterceptor",
-            targets: ["FluxorExplorerStoreInterceptor"]),
+            name: "FluxorExplorerInterceptor",
+            targets: ["FluxorExplorerInterceptor"]),
     ],
     dependencies: [
         .package(
@@ -24,10 +24,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FluxorExplorerStoreInterceptor",
+            name: "FluxorExplorerInterceptor",
             dependencies: ["Fluxor", "FluxorExplorerSnapshot"]),
         .testTarget(
-            name: "FluxorExplorerStoreInterceptorTests",
-            dependencies: ["FluxorExplorerStoreInterceptor"]),
+            name: "FluxorExplorerInterceptorTests",
+            dependencies: ["FluxorExplorerInterceptor"]),
     ]
 )

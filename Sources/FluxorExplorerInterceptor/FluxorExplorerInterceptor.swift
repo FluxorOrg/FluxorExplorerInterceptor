@@ -1,5 +1,5 @@
 //
-//  FluxorExplorerStoreInterceptor.swift
+//  FluxorExplorerInterceptor.swift
 //  Fluxor
 //
 //  Created by Morten Bjerg Gregersen on 15/11/2019.
@@ -12,7 +12,7 @@ import FluxorExplorerSnapshot
 import Foundation
 import MultipeerConnectivity
 
-public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
+public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
     private let serviceType = "fluxor-explorer"
     internal let localPeerID: MCPeerID
     internal var advertiser: MCNearbyServiceAdvertiser
@@ -20,11 +20,11 @@ public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearb
     internal var unsentSnapshots = [FluxorExplorerSnapshot]()
 
     public var peerDidDisconnect: (MCPeerID) -> Void = { peerID in
-        print("FluxorExplorerStoreInterceptor - Peer did disconnect: \(peerID.displayName)")
+        print("FluxorExplorerInterceptor - Peer did disconnect: \(peerID.displayName)")
     }
 
     public var didFailSendingSnapshot: (FluxorExplorerSnapshot) -> Void = { snapshot in
-        print("FluxorExplorerStoreInterceptor - Did fail sending snapshot: \(snapshot)")
+        print("FluxorExplorerInterceptor - Did fail sending snapshot: \(snapshot)")
     }
 
     public convenience init(displayName: String) {
@@ -65,7 +65,7 @@ public class FluxorExplorerStoreInterceptor<State: Encodable>: NSObject, MCNearb
     public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
 }
 
-extension FluxorExplorerStoreInterceptor: Interceptor {
+extension FluxorExplorerInterceptor: Interceptor {
     public func actionDispatched(action: Action, oldState: State, newState: State) {
         let data = FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState)
         send(snapshot: data)
