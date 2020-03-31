@@ -12,20 +12,20 @@
       },
       {
         "package": "Fluxor",
-        "repositoryURL": "https://github.com/MortenGregersen/Fluxor",
+        "repositoryURL": "https://github.com/FluxorOrg/Fluxor",
         "state": {
-          "branch": "master",
-          "revision": "b65eee0f6ab50b3b310ac76c9b3aa6dd7212c464",
-          "version": null
+          "branch": null,
+          "revision": "6f8955c9e80ba7e92ef352909d0c4f14c79473e6",
+          "version": "1.0.0"
         }
       },
       {
         "package": "FluxorExplorerSnapshot",
-        "repositoryURL": "https://github.com/MortenGregersen/FluxorExplorerSnapshot",
+        "repositoryURL": "https://github.com/FluxorOrg/FluxorExplorerSnapshot",
         "state": {
-          "branch": "master",
-          "revision": "a78416d3f6c21c12ee1731067e778b6f2a5dcc96",
-          "version": null
+          "branch": null,
+          "revision": "d31bf27f25591f12a076ebe041ffdd9c17c35d5b",
+          "version": "1.0.0"
         }
       }
     ]

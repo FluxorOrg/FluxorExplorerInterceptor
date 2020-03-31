@@ -6,8 +6,8 @@ let package = Package(
     name: "FluxorExplorerInterceptor",
     platforms: [
         .macOS(.v10_15),
-        .iOS("13.0"),
-        .tvOS("13.0"),
+        .iOS(.v13),
+        .tvOS(.v13),
     ],
     products: [
         .library(
@@ -16,11 +16,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/MortenGregersen/Fluxor",
-            .branch("master")),
+            url: "https://github.com/FluxorOrg/Fluxor",
+            from: "1.0.0"),
         .package(
-            url: "https://github.com/MortenGregersen/FluxorExplorerSnapshot",
-            .branch("master"))
+            url: "https://github.com/FluxorOrg/FluxorExplorerSnapshot",
+            from: "1.0.0"),
     ],
     targets: [
         .target(
