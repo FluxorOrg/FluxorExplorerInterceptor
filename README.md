@@ -1,6 +1,6 @@
 # FluxorExplorerInterceptor
 
-An [Interceptor](https://github.com/MortenGregersen/Fluxor/blob/master/Sources/Fluxor/Interceptor.swift)  to register on a [Fluxor](https://github.com/FluxorOrg/Fluxor) [Store](https://github.com/MortenGregersen/Fluxor/blob/master/Sources/Fluxor/Store.swift). When registered it will send [FluxorExplorerSnapshots](https://github.com/FluxorOrg/FluxorExplorerSnapshot) to [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer).
+An [Interceptor](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Interceptor.swift)  to register on a [Fluxor](https://github.com/FluxorOrg/Fluxor) [Store](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Store.swift). When registered it will send [FluxorExplorerSnapshots](https://github.com/FluxorOrg/FluxorExplorerSnapshot) to [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer).
 
 ![Platforms](https://img.shields.io/badge/platforms-Mac+iOS-brightgreen.svg?style=flat)
 ![Swift version](https://img.shields.io/badge/Swift-5.2-brightgreen.svg)
