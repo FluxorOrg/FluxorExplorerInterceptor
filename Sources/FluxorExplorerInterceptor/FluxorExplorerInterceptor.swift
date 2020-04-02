@@ -1,10 +1,8 @@
-//
-//  FluxorExplorerInterceptor.swift
-//  Fluxor
-//
-//  Created by Morten Bjerg Gregersen on 15/11/2019.
-//  Copyright © 2019 MoGee. All rights reserved.
-//
+/**
+ * FluxorExplorerInterceptor
+ *  Copyright (c) Morten Bjerg Gregersen 2020
+ *  MIT license, see LICENSE file for details
+ */
 
 import AnyCodable
 import Fluxor
@@ -12,6 +10,9 @@ import FluxorExplorerSnapshot
 import Foundation
 import MultipeerConnectivity
 
+/**
+ An `Interceptor` which sends `FluxorExplorerSnapshot`s to FluxorExplorer.
+ */
 public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
     private let serviceType = "fluxor-explorer"
     internal let localPeerID: MCPeerID
@@ -37,6 +38,22 @@ public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServ
         super.init()
         advertiser.delegate = self
         advertiser.startAdvertisingPeer()
+    }
+
+    internal func send(snapshot: FluxorExplorerSnapshot) {
+        guard let session = session, session.connectedPeers.count > 0 else {
+            unsentSnapshots.append(snapshot)
+            return
+        }
+        do {
+            let rawData = try JSONEncoder().encode(snapshot)
+            try session.send(rawData, toPeers: session.connectedPeers, with: .reliable)
+            if let dataIndex = unsentSnapshots.firstIndex(where: { $0 == snapshot }) {
+                unsentSnapshots.remove(at: dataIndex)
+            }
+        } catch {
+            didFailSendingSnapshot(snapshot)
+        }
     }
 
     // MARK: - MCNearbyServiceAdvertiserDelegate
@@ -67,23 +84,6 @@ public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServ
 
 extension FluxorExplorerInterceptor: Interceptor {
     public func actionDispatched(action: Action, oldState: State, newState: State) {
-        let data = FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState)
-        send(snapshot: data)
-    }
-
-    internal func send(snapshot: FluxorExplorerSnapshot) {
-        guard let session = session, session.connectedPeers.count > 0 else {
-            unsentSnapshots.append(snapshot)
-            return
-        }
-        do {
-            let rawData = try JSONEncoder().encode(snapshot)
-            try session.send(rawData, toPeers: session.connectedPeers, with: .reliable)
-            if let dataIndex = unsentSnapshots.firstIndex(where: { $0 == snapshot }) {
-                unsentSnapshots.remove(at: dataIndex)
-            }
-        } catch {
-            didFailSendingSnapshot(snapshot)
-        }
+        send(snapshot: FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState))
     }
 }
