@@ -135,9 +135,19 @@ class FluxorExplorerInterceptorTests: XCTestCase {
         // Then
         waitForExpectations(timeout: 5, handler: nil)
     }
+
+    func testNotSendingWhenActionIsUnencodable() {
+        // Given
+        let action = UnencodableTestAction()
+        // When
+        storeInterceptor.actionDispatched(action: action, oldState: State(), newState: State())
+        // Then
+        XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 0)
+    }
 }
 
-struct TestAction: Action, Equatable {}
+struct TestAction: EncodableAction, Equatable {}
+struct UnencodableTestAction: Action {}
 struct State: Encodable {}
 
 class TestAdvertiser: MCNearbyServiceAdvertiser {
