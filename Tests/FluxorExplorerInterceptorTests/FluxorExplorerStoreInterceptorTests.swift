@@ -11,14 +11,14 @@ import MultipeerConnectivity
 import XCTest
 
 class FluxorExplorerInterceptorTests: XCTestCase {
-    var storeInterceptor: FluxorExplorerInterceptor<State>!
+    var interceptor: FluxorExplorerInterceptor<State>!
     var localPeerID: MCPeerID!
     var otherPeerID: MCPeerID!
     var session: MCSession!
 
     override func setUp() {
         super.setUp()
-        storeInterceptor = FluxorExplorerInterceptor(displayName: "MyDevice", advertiserType: TestAdvertiser.self)
+        interceptor = FluxorExplorerInterceptor(displayName: "MyDevice", advertiserType: TestAdvertiser.self)
         localPeerID = MCPeerID(displayName: "MyDevice")
         otherPeerID = MCPeerID(displayName: "OtherDevice")
         session = MCSession(peer: otherPeerID, securityIdentity: nil, encryptionPreference: .none)
@@ -26,14 +26,14 @@ class FluxorExplorerInterceptorTests: XCTestCase {
 
     func testPublicInitializer() {
         // Given
-        let publicStoreInterceptor = FluxorExplorerInterceptor<State>(displayName: "MyDevice")
+        let publicInterceptor = FluxorExplorerInterceptor<State>(displayName: "MyDevice")
         // Then
-        XCTAssertFalse(publicStoreInterceptor.advertiser is TestAdvertiser)
+        XCTAssertFalse(publicInterceptor.advertiser is TestAdvertiser)
     }
 
     func testInternalInitializer() {
         // Given
-        let testAdvertiser = storeInterceptor!.advertiser as! TestAdvertiser
+        let testAdvertiser = interceptor!.advertiser as! TestAdvertiser
         // Then
         XCTAssertTrue(testAdvertiser.didStartAdvertisingPeer)
     }
@@ -43,19 +43,19 @@ class FluxorExplorerInterceptorTests: XCTestCase {
         let acceptedExpectation = expectation(description: debugDescription)
         // When
         var sessionFromInvitation: MCSession?
-        storeInterceptor!.advertiser(storeInterceptor!.advertiser, didReceiveInvitationFromPeer: otherPeerID, withContext: nil) { accepted, session in
+        interceptor!.advertiser(interceptor!.advertiser, didReceiveInvitationFromPeer: otherPeerID, withContext: nil) { accepted, session in
             XCTAssertTrue(accepted)
             sessionFromInvitation = session
             acceptedExpectation.fulfill()
         }
         // Then
         waitForExpectations(timeout: 5, handler: nil)
-        XCTAssertEqual(storeInterceptor!.session, sessionFromInvitation)
+        XCTAssertEqual(interceptor!.session, sessionFromInvitation)
     }
 
     func testDefaultPeerDidDisconnect() {
         // When
-        storeInterceptor!.session(session, peer: otherPeerID, didChange: MCSessionState.notConnected)
+        interceptor!.session(session, peer: otherPeerID, didChange: MCSessionState.notConnected)
         // Then
         XCTAssertTrue(true) // Nothing explodes (log statement is printed to console)
     }
@@ -63,48 +63,48 @@ class FluxorExplorerInterceptorTests: XCTestCase {
     func testCustomPeerDidDisconnect() {
         // Given
         let disconnectExpectation = expectation(description: debugDescription)
-        storeInterceptor.peerDidDisconnect = { disconnectedPeerID in
+        interceptor.peerDidDisconnect = { disconnectedPeerID in
             XCTAssertEqual(self.otherPeerID, disconnectedPeerID)
             disconnectExpectation.fulfill()
         }
         // When
-        storeInterceptor!.session(session, peer: otherPeerID, didChange: MCSessionState.notConnected)
+        interceptor!.session(session, peer: otherPeerID, didChange: MCSessionState.notConnected)
         // Then
         waitForExpectations(timeout: 5, handler: nil)
     }
 
     func testUnusedMandatorySessionDelegateCalls() {
         // When
-        storeInterceptor!.session(session, didReceive: Data(), fromPeer: otherPeerID)
-        storeInterceptor!.session(session, didReceive: InputStream(), withName: "Some name", fromPeer: otherPeerID)
-        storeInterceptor!.session(session, didStartReceivingResourceWithName: "Some resource", fromPeer: otherPeerID, with: Progress())
-        storeInterceptor!.session(session, didFinishReceivingResourceWithName: "Some resource", fromPeer: otherPeerID, at: nil, withError: nil)
+        interceptor!.session(session, didReceive: Data(), fromPeer: otherPeerID)
+        interceptor!.session(session, didReceive: InputStream(), withName: "Some name", fromPeer: otherPeerID)
+        interceptor!.session(session, didStartReceivingResourceWithName: "Some resource", fromPeer: otherPeerID, with: Progress())
+        interceptor!.session(session, didFinishReceivingResourceWithName: "Some resource", fromPeer: otherPeerID, at: nil, withError: nil)
         // Then
         XCTAssertTrue(true) // Nothing explodes
     }
 
     func testSendSnapshotLaterWhenSessionIsConnected() {
         // Given
-        XCTAssertNil(storeInterceptor.session)
-        XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 0)
+        XCTAssertNil(interceptor.session)
+        XCTAssertEqual(interceptor.unsentSnapshots.count, 0)
         // When
         let action = TestAction()
-        storeInterceptor.actionDispatched(action: action, oldState: State(), newState: State())
+        interceptor.actionDispatched(action: action, oldState: State(), newState: State())
         // Then
-        XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 1)
+        XCTAssertEqual(interceptor.unsentSnapshots.count, 1)
 
         // Given
         let mockSession = MCSessionSubClass(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none, connectedPeers: [otherPeerID])
-        storeInterceptor.session = mockSession
-        let rawData = try! JSONEncoder().encode(storeInterceptor.unsentSnapshots[0])
+        interceptor.session = mockSession
+        let rawData = try! JSONEncoder().encode(interceptor.unsentSnapshots[0])
         // When
-        storeInterceptor.session(storeInterceptor.session!, peer: otherPeerID, didChange: .connected)
+        interceptor.session(interceptor.session!, peer: otherPeerID, didChange: .connected)
         // Then
         let sentData = mockSession.sentData!
         XCTAssertEqual(sentData.data, rawData)
         XCTAssertEqual(sentData.toPeers, [otherPeerID])
         XCTAssertEqual(sentData.mode, .reliable)
-        XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 0)
+        XCTAssertEqual(interceptor.unsentSnapshots.count, 0)
     }
 
     func testDefaultDidFailSendingSnapshot() {
@@ -112,9 +112,9 @@ class FluxorExplorerInterceptorTests: XCTestCase {
         let snapshot = FluxorExplorerSnapshot(action: TestAction(), oldState: State(), newState: State())
         let mockSession = MCSessionSubClass(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none, connectedPeers: [otherPeerID])
         mockSession.shouldFailSendingData = true
-        storeInterceptor.session = mockSession
+        interceptor.session = mockSession
         // When
-        storeInterceptor.send(snapshot: snapshot)
+        interceptor.send(snapshot: snapshot)
         // Then
         XCTAssertTrue(true) // Nothing explodes (log statement is printed to console)
     }
@@ -124,14 +124,14 @@ class FluxorExplorerInterceptorTests: XCTestCase {
         let snapshot = FluxorExplorerSnapshot(action: TestAction(), oldState: State(), newState: State())
         let mockSession = MCSessionSubClass(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none, connectedPeers: [otherPeerID])
         mockSession.shouldFailSendingData = true
-        storeInterceptor.session = mockSession
+        interceptor.session = mockSession
         let didFailSendingExpectation = expectation(description: debugDescription)
-        storeInterceptor.didFailSendingSnapshot = { failingSnapshot in
+        interceptor.didFailSendingSnapshot = { failingSnapshot in
             XCTAssertEqual(snapshot, failingSnapshot)
             didFailSendingExpectation.fulfill()
         }
         // When
-        storeInterceptor.send(snapshot: snapshot)
+        interceptor.send(snapshot: snapshot)
         // Then
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -140,9 +140,9 @@ class FluxorExplorerInterceptorTests: XCTestCase {
         // Given
         let action = UnencodableTestAction()
         // When
-        storeInterceptor.actionDispatched(action: action, oldState: State(), newState: State())
+        interceptor.actionDispatched(action: action, oldState: State(), newState: State())
         // Then
-        XCTAssertEqual(storeInterceptor.unsentSnapshots.count, 0)
+        XCTAssertEqual(interceptor.unsentSnapshots.count, 0)
     }
 }
 
