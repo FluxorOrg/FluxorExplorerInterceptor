@@ -13,7 +13,8 @@ import MultipeerConnectivity
 /**
  An `Interceptor` which sends `FluxorExplorerSnapshot`s to FluxorExplorer.
  */
-public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
+public class FluxorExplorerInterceptor<State: Encodable>: NSObject,
+    MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
     private let serviceType = "fluxor-explorer"
     internal let localPeerID: MCPeerID
     internal var advertiser: MCNearbyServiceAdvertiser
@@ -76,14 +77,17 @@ public class FluxorExplorerInterceptor<State: Encodable>: NSObject, MCNearbyServ
         }
     }
 
+    // swiftlint:disable line_length
     public func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {}
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
     public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
+    // swiftlint:enable line_length
 }
 
 extension FluxorExplorerInterceptor: Interceptor {
     public func actionDispatched(action: Action, oldState: State, newState: State) {
+        guard let action = action as? EncodableAction else { return }
         send(snapshot: FluxorExplorerSnapshot(action: action, oldState: oldState, newState: newState))
     }
 }
