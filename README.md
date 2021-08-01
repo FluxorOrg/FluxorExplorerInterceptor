@@ -14,12 +14,12 @@ An [Interceptor](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/
 ## ⚙️ Usage
 To get started with FluxorExplorerInterceptor, just register an instance of it on the  Store in an app.
 
-The only thing needed, for FluxorExplorer to receive all actions and state changes from an app, is to register the `FluxorExplorerStoreInterceptor` in the app's [Fluxor](https://github.com/FluxorOrg/Fluxor) `Store`. When [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer) and the app are running on the same network (eg. running the app on the iOS Simulator), they will automatically connect and transmit data.
+The only thing needed, for FluxorExplorer to receive all actions and state changes from an app, is to register the `FluxorExplorerInterceptor` in the app's [Fluxor](https://github.com/FluxorOrg/Fluxor) `Store`. When [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer) and the app are running on the same network (eg. running the app on the iOS Simulator), they will automatically connect and transmit data.
 
 ```swift
 let store = Store(initialState: AppState())
 #if DEBUG
-store.register(interceptor: FluxorExplorerStoreInterceptor(displayName: UIDevice.current.name))
+store.register(interceptor: FluxorExplorerInterceptor(displayName: UIDevice.current.name))
 #endif
 ```
 
