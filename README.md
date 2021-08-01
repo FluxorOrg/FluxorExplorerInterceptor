@@ -1,10 +1,3 @@
-# Moved 🚚
-
-**This repository is not updated anymore. It has been merged into the main [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer) repository.**
-If you use this library directly, please change the url to [https://github.com/FluxorOrg/FluxorExplorer/tree/master/FluxorExplorerInterceptor]().
-
-<hr />
-
 # FluxorExplorerInterceptor
 
 An [Interceptor](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Interceptor.swift)  to register on a [Fluxor](https://github.com/FluxorOrg/Fluxor) [Store](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Store.swift). When registered it will send [FluxorExplorerSnapshots](https://github.com/FluxorOrg/FluxorExplorerSnapshot) to [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer).
