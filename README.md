@@ -3,7 +3,7 @@
 An [Interceptor](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Interceptor.swift)  to register on a [Fluxor](https://github.com/FluxorOrg/Fluxor) [Store](https://github.com/FluxorOrg/Fluxor/blob/master/Sources/Fluxor/Store.swift). When registered it will send [FluxorExplorerSnapshots](https://github.com/FluxorOrg/FluxorExplorerSnapshot) to [FluxorExplorer](https://github.com/FluxorOrg/FluxorExplorer).
 
 [![Swift version](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFluxorOrg%2FFluxorExplorerInterceptor%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/FluxorOrg/FluxorExplorerInterceptor)
-[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFluxorOrg%2FFluxorExplorerSnapshot%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FluxorOrg/FluxorExplorerSnapshot)
+[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFluxorOrg%2FFluxorExplorerInterceptor%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FluxorOrg/FluxorExplorerInterceptor)
 
 ![Test](https://github.com/FluxorOrg/FluxorExplorerInterceptor/workflows/CI/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fe7eab769644c665f08a/maintainability)](https://codeclimate.com/github/FluxorOrg/FluxorExplorerInterceptor/maintainability)
